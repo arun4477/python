@@ -67,3 +67,31 @@ FINNIFTY_EXPIRY_ = getEpochTime(FINNIFTY_EXPIRY)
 print(BNF_NIFTY_EXPIRY_)
 print(FINNIFTY_EXPIRY_)
 
+STREAM_DATA = True #@param { type: 'boolean' }
+print(BNF_NIFTY_EXPIRY_)
+print(FINNIFTY_EXPIRY_)
+if STREAM_DATA:
+  if INCLUDE_NIFTY or INCLUDE_BANKNIFTY or INCLUDE_FINNIFTY:
+    try:
+      option_chain = FetchOptionData(
+        CREDS, EMAIL, 
+        PASSWORD_5PAISA, DOB_YYYYMMDD, 
+        BNF_NIFTY_EXPIRY_, FINNIFTY_EXPIRY_,
+        INCLUDE_NIFTY, INCLUDE_BANKNIFTY, INCLUDE_FINNIFTY,
+        BNF_NIFTY_FUT_EXPIRY_, FINNIFTY_FUT_EXPIRY_)
+      
+      option_chain.stream()
+
+    except (FetchExpiryException, InvalidLoginException, 
+            InvalidLoginCredentialsException, InvalidFutureExpiryDateException,
+            InvalidOptionExpiryDateException, OptionChainFetchException,
+            FuturesFetchException, SpotFetchException, 
+            OptionChainFetchException) as e:
+      pass
+    except KeyboardInterrupt: 
+      clear_output(wait=True)
+    
+      display(HTML("<h2 style='color: #FF4500'>Error : Option Chain fetch interrupted</h2>"))
+  else:
+    display(HTML(f"<h2 style='color: #FD7F20'>Select atleast one index</h2>"))
+
