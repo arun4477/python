@@ -41,7 +41,7 @@ CREDS = {'APP_NAME':APP_NAME,
          'PASSWORD': PASSWORD,
          'USER_KEY': USER_KEY,
          'ENCRYPTION_KEY': ENCRYPTION_KEY}
-#display(HTML("<h2 style='color: #00D100'>Credentials Added</h2>"))
+display(HTML("<h2 style='color: #00D100'>Credentials Added</h2>"))
 print("Credentials Added")
 
 INCLUDE_NIFTY = True #@param { type: 'boolean' }
@@ -60,17 +60,10 @@ BNF_NIFTY_EXPIRY = "2023-03-02" #@param { type: 'date' }
 FINNIFTY_EXPIRY = "2023-03-06" #@param { type: 'date' }
 
 print(11111111111111111)
-year = int("2023")
-month = int("03")
-day = int("02")
-#BNF_NIFTY_EXPIRY_ = getEpochTime(BNF_NIFTY_EXPIRY)
-#FINNIFTY_EXPIRY_ = getEpochTime(FINNIFTY_EXPIRY)
 
-BNF_NIFTY_EXPIRY_ = datetime.datetime(year, month, day, 9, 0, 0).strftime("%s")
-#FINNIFTY_EXPIRY_ = datetime.datetime((int)2023, (int)3, (init)6, 9, 0, 0).strftime('%s')
+BNF_NIFTY_EXPIRY_ = getEpochTime(BNF_NIFTY_EXPIRY)
+FINNIFTY_EXPIRY_ = getEpochTime(FINNIFTY_EXPIRY)
 
-#BNF_NIFTY_EXPIRY_ = datetime.datetime(2023,3,2).timestamp()
-#FINNIFTY_EXPIRY_ = datetime.datetime(2023,3,6).timestamp()
+print(BNF_NIFTY_EXPIRY_)
+print(FINNIFTY_EXPIRY_)
 
-#print(BNF_NIFTY_EXPIRY_)
-#print(FINNIFTY_EXPIRY_)
