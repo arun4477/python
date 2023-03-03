@@ -1,3 +1,5 @@
+#updated on 03-03-2023
+import streamlit as st
 import time
 import warnings
 import traceback
@@ -96,30 +98,38 @@ class FetchOptionData:
       if self.client.login_response_message is not None or not self.client.is_logged_in:
         raise InvalidLoginException
       else:
-        display(HTML("<h2 style='color: #00D100'>Logged In...!!</h2>"))
-
+        #display(HTML("<h2 style='color: #00D100'>Logged In...!!</h2>"))
+        #st.write("<h2 style='color: #00D100'>Logged In...!!</h2>", unsafe_allow_html=True)
+        print("Logged In")
     except InvalidLoginException:
       if self.client.login_response_message is not None:
-        display(HTML(f"<h2 style='color: #FF4500'>Error during Sign in : {self.client.login_response_message}</h2>"))
+        #display(HTML(f"<h2 style='color: #FF4500'>Error during Sign in : {self.client.login_response_message}</h2>"))
+        #st.write("<h2 style='color: #FF4500'>Error during Sign in : {self.client.login_response_message}</h2>", unsafe_allow_html=True)
+        print("Error-11111")
       else:
-        display(HTML(f"<h2 style='color: #FF4500'>Error during Sign in : Invalid Credentials</h2>"))
+        #display(HTML(f"<h2 style='color: #FF4500'>Error during Sign in : Invalid Credentials</h2>"))
+        #st.write("<h2 style='color: #FF4500'>Error during Sign in : Invalid Credentials</h2>", unsafe_allow_html=True)
+        print("Error-22222")
       raise InvalidLoginException
 
     try:
-      display(HTML("<h2 style='color: #FD7F20'>Checking Futures and Options Expiry date</h2>"))
+      #display(HTML("<h2 style='color: #FD7F20'>Checking Futures and Options Expiry date</h2>"))
+      #st.write("<h2 style='color: #FD7F20'>Checking Futures and Options Expiry date</h2>", unsafe_allow_html=True)
       self.check_expiry_dates('NIFTY')
       self.check_expiry_dates('FINNIFTY')
 
       if (not self.is_bnf_nifty_fut_date_valid) or (not self.is_finnifty_fut_date_valid):
         raise InvalidFutureExpiryDateException
       else:
-        display(HTML("<h2 style='color: #00D100'>Futures date Valid</h2>"))
-
+        #display(HTML("<h2 style='color: #00D100'>Futures date Valid</h2>"))
+        #st.write("<h2 style='color: #00D100'>Futures date Valid</h2>", unsafe_allow_html=True)
+        print("Future Date Valid")
       if (not self.is_bnf_nifty_opt_date_valid) or (not self.is_finnifty_opt_date_valid):
         raise InvalidOptionExpiryDateException
       else:
-        display(HTML("<h2 style='color: #00D100'>Option Expiry date Valid</h2>"))
-
+        #display(HTML("<h2 style='color: #00D100'>Option Expiry date Valid</h2>"))
+        #st.write("<h2 style='color: #00D100'>Option Expiry date Valid</h2>", unsafe_allow_html=True)
+        print("Valid")
     except InvalidFutureExpiryDateException:
       if not self.is_bnf_nifty_fut_date_valid:
         display(HTML(f"<h2 style='color: #FF4500'>NIFTY/BANKNIFTY Futures Date Invalid</h2>"))
@@ -226,14 +236,14 @@ class FetchOptionData:
 
       if futures is not None:
         if futures['Data'] is None:
-          display(HTML(f"<h2 style='color: #FF4500'>Error Fetching {index} Futures Value</h2>"))
+          #display(HTML(f"<h2 style='color: #FF4500'>Error Fetching {index} Futures Value</h2>"))
           raise FuturesFetchException
       else:
         raise FuturesFetchException
 
       if option_chain is not None:
         if len(option_chain['Options']) == 0:
-          display(HTML(f"<h2 style='color: #FF4500'>Error Fetching {index} Option Chain</h2>"))
+          #display(HTML(f"<h2 style='color: #FF4500'>Error Fetching {index} Option Chain</h2>"))
           raise OptionChainFetchException
       else:
         raise OptionChainFetchException
@@ -449,10 +459,11 @@ class FetchOptionData:
           
           for j in jobs:
             j.kill()
-
-          self.index_stack(result)
-          time.sleep(1)
-          clear_output(wait=True)
+          with st.empty():
+            self.index_stack(result)
+            time.sleep(1)
+            #clear_output(wait=True)
+            st.write("")
 
         except KeyboardInterrupt:
           for j in jobs:
@@ -464,7 +475,8 @@ class FetchOptionData:
           result = [self.smap(f) for f in functions]
           self.index_stack(result)
           time.sleep(1)
-          clear_output(wait=True)
+          #clear_output(wait=True)
+          st.empty()
 
         except KeyboardInterrupt:
           raise KeyboardInterrupt
@@ -539,7 +551,7 @@ class FetchOptionData:
           padding: 5px;
         }
         #dataframe{
-          margin-top : 30px;
+          margin-top : 0px;
           width : 100%;
         }
         .atm{
@@ -558,7 +570,7 @@ class FetchOptionData:
           text-align: center;
         }
         content{
-          margin-left:10px;
+          margin-left:30px;
         }
       </style>
     """
@@ -587,7 +599,7 @@ class FetchOptionData:
     return html
 
   def index_stack(self, dfs):
-    html = '<div style="width: 100%;">'
+    html = '<div style="width: 100%">'
     if isinstance(dfs, list):
       for idx, df in dfs:
         if df is not None:
@@ -602,5 +614,6 @@ class FetchOptionData:
           else:
             html += f'<h3><i>Fetching {idx} Option data.....</i></h3>'
     html += '</div>'
-    display(HTML(html))
+    #display(HTML(html))
+    st.write(html, unsafe_allow_html=True)
     

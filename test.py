@@ -1,5 +1,5 @@
-#@title  { vertical-output: true }
-#@title { form-width: "500%", display-mode: "form" }
+#Updated on 03-03-2023
+import streamlit as st
 import os
 import sys
 import subprocess
@@ -41,7 +41,8 @@ CREDS = {'APP_NAME':APP_NAME,
          'PASSWORD': PASSWORD,
          'USER_KEY': USER_KEY,
          'ENCRYPTION_KEY': ENCRYPTION_KEY}
-display(HTML("<h2 style='color: #00D100'>Credentials Added</h2>"))
+#display(HTML("<h2 style='color: #00D100'>Credentials Added</h2>"))
+#st.write("<h2 style='color: #00D100'>Credentials Added</h2>", unsafe_allow_html=True)
 print("Credentials Added")
 
 INCLUDE_NIFTY = True #@param { type: 'boolean' }
@@ -56,10 +57,10 @@ FINNIFTY_FUT_EXPIRY = "2023-03-28" #@param { type: 'date' }
 BNF_NIFTY_FUT_EXPIRY_ = convertTimeString(BNF_NIFTY_FUT_EXPIRY)
 FINNIFTY_FUT_EXPIRY_ = convertTimeString(FINNIFTY_FUT_EXPIRY)
 
-BNF_NIFTY_EXPIRY = "2023-03-02" #@param { type: 'date' }
+BNF_NIFTY_EXPIRY = "2023-03-09" #@param { type: 'date' }
 FINNIFTY_EXPIRY = "2023-03-06" #@param { type: 'date' }
 
-print(11111111111111111)
+print("Expiry date stored")
 
 BNF_NIFTY_EXPIRY_ = getEpochTime(BNF_NIFTY_EXPIRY)
 FINNIFTY_EXPIRY_ = getEpochTime(FINNIFTY_EXPIRY)
@@ -67,9 +68,9 @@ FINNIFTY_EXPIRY_ = getEpochTime(FINNIFTY_EXPIRY)
 print(BNF_NIFTY_EXPIRY_)
 print(FINNIFTY_EXPIRY_)
 
+print("Start fetching data")
+
 STREAM_DATA = True #@param { type: 'boolean' }
-print(BNF_NIFTY_EXPIRY_)
-print(FINNIFTY_EXPIRY_)
 if STREAM_DATA:
   if INCLUDE_NIFTY or INCLUDE_BANKNIFTY or INCLUDE_FINNIFTY:
     try:
@@ -80,6 +81,7 @@ if STREAM_DATA:
         INCLUDE_NIFTY, INCLUDE_BANKNIFTY, INCLUDE_FINNIFTY,
         BNF_NIFTY_FUT_EXPIRY_, FINNIFTY_FUT_EXPIRY_)
       
+      print("Calling option_chain.stream")
       option_chain.stream()
 
     except (FetchExpiryException, InvalidLoginException, 
@@ -91,7 +93,11 @@ if STREAM_DATA:
     except KeyboardInterrupt: 
       clear_output(wait=True)
     
-      display(HTML("<h2 style='color: #FF4500'>Error : Option Chain fetch interrupted</h2>"))
+      #display(HTML("<h2 style='color: #FF4500'>Error : Option Chain fetch interrupted</h2>"))
+      st.write("<h2 style='color: #FF4500'>Error : Option Chain fetch interrupted</h2>", unsafe_allow_html=True)
+      print("Option chain fetch interrupted")
   else:
-    display(HTML(f"<h2 style='color: #FD7F20'>Select atleast one index</h2>"))
+    #display(HTML(f"<h2 style='color: #FD7F20'>Select atleast one index</h2>"))
+    print("Select at least one index")
+
 
